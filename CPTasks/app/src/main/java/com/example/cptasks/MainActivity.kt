@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
             getRes()
         }
 
+        
     }
     private fun getRes(){
         val url ="http://192.168.1.149:3001/api/group"
