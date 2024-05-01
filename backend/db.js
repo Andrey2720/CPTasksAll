@@ -4,7 +4,8 @@ const pool = new Pool({
     password: '1234',
     host: 'localhost',
     port: 5433,
-    database: 'postgres'
+    database: 'postgres',
+    timezone: 'utc'
 })
 
 

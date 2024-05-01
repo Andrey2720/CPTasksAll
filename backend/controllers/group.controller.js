@@ -2,7 +2,7 @@ const db = require('../db')
 class GroupController{
     async createGroup(reg, res){
         const {name} = reg.body
-        const newGroup = await db.query(`insert into group_tb (groupname) values ($1) returning *`, [name])
+        const newGroup = await db.query(`insert into group_tb (name) values ($1) returning *`, [name])
         res.json(newGroup.rows[0])
     }
     async getGroups(reg, res){

@@ -1,9 +1,11 @@
+process.env.TZ = 'Etc/UTC';
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const app = express()
 const groupRouter = require('./routes/group.routes')
 const userRouter = require('./routes/user.routes')
+const taskRouter = require('./routes/task.routes')
 
 
 
@@ -18,3 +20,4 @@ app.listen(port, '192.168.1.46', () => {
 
 app.use('/api', groupRouter)
 app.use('/api', userRouter)
+app.use('/api', taskRouter)
