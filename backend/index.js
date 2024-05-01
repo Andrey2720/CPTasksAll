@@ -12,7 +12,7 @@ app.use(cors())
 // app.use(express.json())
 let port = 3001
 
-app.listen(port, '192.168.1.149', () => {
+app.listen(port, '192.168.1.46', () => {
     console.log("сервер запущен на порту 3001")
 })
 
