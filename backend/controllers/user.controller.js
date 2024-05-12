@@ -23,6 +23,7 @@ class UserController{
 
     }
     async loginUser(reg, res){
+        console.log(reg.body)
         let c = false
         const {password, email} = reg.body
         const q = await db.query(`select * from user_tb`)

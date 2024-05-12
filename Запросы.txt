@@ -22,3 +22,18 @@
     "email": "test1@mail.ru",
     "password": "11234567"   
 }
+
+
+Тело запроса для создания задачи
+{
+    
+    "name": "Покрасить",
+    "description": "Конкретно в зеленый",
+    "files": "",
+    "status": 0,
+    "date_start": "2024-05-12",
+    "date_end": "2024-05-12",
+    "time_start": "15:00:00",
+    "time_end": "16:35:00",
+    "user_tb_id": 2
+}

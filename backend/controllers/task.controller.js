@@ -16,21 +16,17 @@ class TaskController{
     async getOneTask(reg, res){
         const id = reg.params.id
         const oneUser = await db.query(`select * from tasks where id = $1`, [id])
-        res.json(oneUser.rows)
+        res.json(oneUser.rows[0])
     }
 
     async getTaskFilter(reg, res){
-        const {status, date_start, date_end, user_tb_id} = reg.body
+        
+        const {date_start, time_start, time_end, user_tb_id} = reg.body[0]
         // console.log(name, surename, patronymic, email, role, group_tb_id)
-        console.log(status)
-        const filt = await db.query(`SELECT * FROM tasks WHERE date_start BETWEEN $1 AND $2 AND user_tb_id = $3 AND status = $4;`, [date_start, date_end, user_tb_id, status])
+        console.log(reg.body)
+        const filt = await db.query(`SELECT * FROM tasks WHERE time_start BETWEEN $1 AND $2 AND user_tb_id = $3 AND date_start = $4 ORDER BY time_start;`, [time_start, time_end, user_tb_id, date_start])
         res.json(filt.rows)
     }
-    async updateUser(reg, res){
-        
-    }
-    async deleteUser(reg, res){
-        
-    }
+    
 }
 module.exports = new TaskController()
