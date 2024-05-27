@@ -14,7 +14,8 @@ class UserController{
         if(i > 0){
             res.json({message:"Пользователь с таким email уже существует"})
         }else{
-            const newUser = await db.query(`insert into users (name, email,  phone, role, password) values ($1, $2, $3, $4, $5) returning *`, [name, email,  phone, role, password])
+            const newUser = await db.query(`insert into users (name, email,  phone, role, password) values ($1, $2, $3, $4, $5) returning *`, 
+                                            [name, email,  phone, role, password])
             res.json(newUser.rows[0])
         }
         

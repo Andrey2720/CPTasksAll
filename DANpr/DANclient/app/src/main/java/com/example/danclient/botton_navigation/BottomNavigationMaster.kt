@@ -20,13 +20,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 
 @Composable
-fun BottomNavigation(
+fun BottomNavigationMaster(
     navController: NavController
 ) {
     val listItem = listOf(
-        BottonItem.Screen1,
-        BottonItem.Screen2,
-        BottonItem.Screen3
+        BottonItemMaster.Screen1,
+        BottonItemMaster.Screen2
     )
     NavigationBar(
 //        modifier = Modifier.background(color = Color.White),

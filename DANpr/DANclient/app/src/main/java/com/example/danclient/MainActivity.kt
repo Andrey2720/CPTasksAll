@@ -3,45 +3,41 @@ package com.example.danclient
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.danclient.ui.theme.DANclientTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.danclient.botton_navigation.BottomNavigation
+import com.example.danclient.botton_navigation.BottonItem
+import com.example.danclient.screens.Login
+import com.example.danclient.screens.Profile
+import com.example.danclient.screens.Registration
+import com.example.danclient.screens.master.DescriptionMaster
+import com.example.danclient.screens.user.Category
+import com.example.danclient.screens.user.Requests
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DANclientTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+            val navController = rememberNavController()
+
+            NavHost(navController=navController, startDestination = "login", modifier = Modifier.fillMaxSize()) {
+                    composable("login") { Login(navController, this@MainActivity)}
+//                navController
+                    composable("reg") { Registration(navController, this@MainActivity)}
+                    composable("DescriptionMaster") { DescriptionMaster() }
+                    composable("main") { MainScreen()}
+                    composable("mainMaster") { MainScreenMaster() }
                 }
+
+            }
             }
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DANclientTheme {
-        Greeting("Android")
-    }
-}

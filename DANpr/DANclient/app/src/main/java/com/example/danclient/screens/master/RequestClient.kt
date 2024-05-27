@@ -28,13 +28,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.danclient.R
+import com.example.danclient.botton_navigation.BottonItemMaster
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShowItemMaster() {
+fun RequestClient(navController: NavHostController) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(15.dp),
@@ -42,7 +44,7 @@ fun ShowItemMaster() {
     ) {
         Text(
 
-            text = "Предложение",
+            text = "Запрос",
             style = TextStyle(Color(97, 0, 233)),
             fontSize = 20.sp
         )
@@ -83,16 +85,35 @@ fun ShowItemMaster() {
 
             }
         }
-        Button(
-            onClick = {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(top = 30.dp),
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.SpaceAround
+        ){
+            Button(
+                onClick = {
 //                    checkUser(context, loginText.value, passwordText.value, navController)
-            },
-            modifier = Modifier
-                .padding(top = 25.dp)
-                .size(width = 271.dp, height = 45.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(97, 0, 233))
-        ) {
-            Text(text = "Отправить заявку")
+                          navController.navigate(BottonItemMaster.Screen1.route)
+                },
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .size(width = 147.dp, height = 45.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(97, 0, 233))
+            ) {
+                Text(text = "Принять")
+            }
+            Button(
+                onClick = {
+//                    checkUser(context, loginText.value, passwordText.value, navController)
+                    navController.navigate(BottonItemMaster.Screen1.route)
+                },
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .size(width = 147.dp, height = 45.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(97, 0, 233))
+            ) {
+                Text(text = "Отклонить")
+            }
         }
     }
 }

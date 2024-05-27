@@ -24,12 +24,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.danclient.R
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun Profile() {
+fun Profile(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -132,6 +133,7 @@ fun Profile() {
         Button(
             onClick = {
 //                    checkUser(context, loginText.value, passwordText.value, navController)
+                      navController.navigate("Rules")
             },
             modifier = Modifier
                 .padding(top = 35.dp)

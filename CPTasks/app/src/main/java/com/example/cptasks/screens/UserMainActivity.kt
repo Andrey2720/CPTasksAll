@@ -69,17 +69,17 @@ fun UserMainActivity(data: String ,context: Context, navController: NavControlle
         mutableStateOf(listOf<ItemTaskModel>())
     }
 
-    val formatter = SimpleDateFormat("yyyy-MM-dd")
-    val date = Date()
-    val current = formatter.format(date)
-    dateText.value = current
-    timeStartText.value = "00:00:00"
-    timeEndText.value = "23:59:59"
-    val userID = JSONObject(data).getInt("id")
-    GetDataTasks(context, itemList, current, "23:59:59", "00:00:00", userID)
+//    val formatter = SimpleDateFormat("yyyy-MM-dd")
+//    val date = Date()
+//    val current = formatter.format(date)
+//    dateText.value = current
+//    timeStartText.value = "00:00:00"
+//    timeEndText.value = "23:59:59"
+//    val userID = JSONObject(data).getInt("id")
+////    GetDataTasks(context, itemList, current, "23:59:59", "00:00:00", userID)
 
 
-    Log.d("MyLog", "ДАТА:  $current")
+//    Log.d("MyLog", "ДАТА:  $current")
 
     Column(
         modifier = Modifier

@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 
 @Preview(showBackground = true)
 @Composable
-fun CompletionCard() {
+fun DescriptionMaster() {
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -40,7 +40,7 @@ fun CompletionCard() {
         ) {
         Text(
             modifier = Modifier.fillMaxHeight(0.08f),
-            text = "Уточните проблему",
+            text = "Укажите навыки",
             style = TextStyle(Color(97, 0, 233)),
             fontSize = 20.sp
         )
@@ -59,7 +59,7 @@ fun CompletionCard() {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Тип техники",
+                Text(text = "Категория техники",
                     style = TextStyle(Color.White)
                 )
             }
@@ -83,42 +83,7 @@ fun CompletionCard() {
         )
 
 
-        Card(modifier = Modifier
-            .fillMaxWidth()
-            .height(25.dp)
-            .padding(),
 
-            colors = CardDefaults.cardColors(
-                containerColor = Color(97, 0, 233)),
-            shape = RoundedCornerShape(5.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Тип проблемы",
-                    style = TextStyle(Color.White)
-                )
-            }
-        }
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-
-                .fillMaxWidth()
-                .padding(top = 10.dp, bottom = 10.dp),
-            textStyle = TextStyle(fontSize=15.sp),
-
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color(0xffeeeeee),
-                unfocusedTextColor = Color(0xff222222),
-                focusedContainerColor = Color.White,
-                focusedTextColor = Color(0xff222222)
-            ),
-            singleLine = true
-        )
         Card(modifier = Modifier
             .fillMaxWidth()
             .height(25.dp)

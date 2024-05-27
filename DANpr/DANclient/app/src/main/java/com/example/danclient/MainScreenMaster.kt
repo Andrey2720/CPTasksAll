@@ -12,9 +12,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.danclient.botton_navigation.BottomNavigation
+import com.example.danclient.botton_navigation.BottomNavigationMaster
 import com.example.danclient.botton_navigation.BottonItem
+import com.example.danclient.botton_navigation.BottonItemMaster
 import com.example.danclient.screens.Profile
 import com.example.danclient.screens.Rules
+import com.example.danclient.screens.master.DescriptionMaster
+import com.example.danclient.screens.master.RequestClient
+import com.example.danclient.screens.master.RequestsMaster
 import com.example.danclient.screens.user.Category
 import com.example.danclient.screens.user.CompletionCard
 import com.example.danclient.screens.user.ListMasters
@@ -23,24 +28,23 @@ import com.example.danclient.screens.user.ShowItemMaster
 
 
 @Composable
-fun MainScreen() {
-    val navController1 = rememberNavController()
+fun MainScreenMaster() {
+    val navController2 = rememberNavController()
     Column(modifier = Modifier.fillMaxSize()) {
         NavHost(
-            navController = navController1,
-            startDestination = BottonItem.Screen1.route,
+            navController = navController2,
+            startDestination = BottonItemMaster.Screen1.route,
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.9f)
         ) {
-            composable(BottonItem.Screen1.route) { Category(navController1) }
-            composable(BottonItem.Screen2.route) { Requests() }
-            composable(BottonItem.Screen3.route) { Profile(navController1) }
-            composable("Complect") { CompletionCard(navController1) }
-            composable("ListMasters") { ListMasters(navController1) }
-            composable("ShowMaster") { ShowItemMaster(navController1) }
+
+            composable(BottonItemMaster.Screen1.route) { RequestsMaster(navController2) }
+            composable(BottonItemMaster.Screen2.route) { Profile(navController2) }
             composable("Rules") { Rules() }
+            composable("RequestClient") { RequestClient(navController2) }
+
         }
-        BottomNavigation(navController = navController1)
+        BottomNavigationMaster(navController = navController2)
     }
 }

@@ -26,11 +26,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.danclient.R
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun Requests() {
+fun RequestsMaster(navController: NavHostController) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(15.dp),
@@ -38,7 +39,7 @@ fun Requests() {
     ) {
         Text(
 
-            text = "Мои заявки",
+            text = "Поступившые запросы",
             style = TextStyle(Color(97, 0, 233)),
             fontSize = 20.sp
         )
@@ -46,7 +47,7 @@ fun Requests() {
             modifier = Modifier.padding(top = 20.dp)
         ) {
             items(5){
-                ItemRequests()
+                ItemRequests(navController)
             }
         }
 
@@ -54,10 +55,10 @@ fun Requests() {
 }
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemRequests() {
+fun ItemRequests(navController: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -67,7 +68,7 @@ fun ItemRequests() {
             containerColor = Color(97, 0, 233)
         ),
         shape = RoundedCornerShape(5.dp),
-        onClick = {}
+        onClick = {navController.navigate("RequestClient")}
 
 
     ) {
@@ -91,7 +92,7 @@ fun ItemRequests() {
                     )
                     Text(
                         modifier = Modifier.padding(top = 10.dp),
-                        text = "Мы сможем вам помочь",
+                        text = "У меня вот такая проблема",
                         style = TextStyle(Color.White)
                     )
                 }
