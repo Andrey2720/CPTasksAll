@@ -1,3 +1,6 @@
 package com.example.danclient.data
 
-data class CategoriesModel()
+data class CategoriesModel(
+    val id: Int,
+    val name: String
+)

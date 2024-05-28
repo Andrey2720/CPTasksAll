@@ -37,6 +37,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.danclient.R
+import com.example.danclient.data.UserData
 import org.json.JSONObject
 
 
@@ -174,6 +175,7 @@ private fun checkUser(context: Context, login: String, password: String, navCont
                 it.getString("name")
                 val res = it.toString()
 //                navController.navigate("main/$res")
+
                 navController.navigate("mainMaster")
             } catch (e: Exception) {
 

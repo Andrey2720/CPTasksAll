@@ -17,6 +17,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,11 +29,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.danclient.data.CategoriesModel
+
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 //@Preview(showBackground = true)
 @Composable
 fun Category(navController: NavHostController) {
+
+    var itemList = remember {
+        mutableStateOf(listOf<CategoriesModel>())
+    }
 
   Column(modifier = Modifier
       .fillMaxSize()
@@ -83,3 +97,41 @@ fun ListItem(navController: NavHostController) {
         }
     }
 }
+
+private fun GetDataCategor(context: Context, itemList: MutableState<List<CategoriesModel>>){
+
+    val url ="http://192.168.1.46:3002/api/category"
+    val queue = Volley.newRequestQueue(context)
+    val req =  StringRequest(
+        Request.Method.GET,
+        url,
+        {
+            val obj = JSONArray(it)
+            val list = ParsCategories(obj)
+            itemList.value = list
+
+        },
+        {
+            Log.d("Error", "simpleRequest:${it}")
+        }
+    )
+
+    queue.add(req)
+}
+
+private fun ParsCategories(res: JSONArray): ArrayList<CategoriesModel> {
+    val list = ArrayList<CategoriesModel>()
+    for (i in 0 until res.length()){
+        val item = res[i] as JSONObject
+        list.add(
+            CategoriesModel(
+                item.getInt("id"),
+                item.getString("name"),
+            )
+        )
+    }
+
+    return list
+}
+
+

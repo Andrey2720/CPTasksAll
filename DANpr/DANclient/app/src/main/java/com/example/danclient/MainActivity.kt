@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.danclient.botton_navigation.BottomNavigation
 import com.example.danclient.botton_navigation.BottonItem
 import com.example.danclient.screens.Login
@@ -30,7 +32,10 @@ class MainActivity : ComponentActivity() {
                     composable("login") { Login(navController, this@MainActivity)}
 //                navController
                     composable("reg") { Registration(navController, this@MainActivity)}
-                    composable("DescriptionMaster") { DescriptionMaster() }
+                    composable("DescriptionMaster/{data}"
+                        , arguments = listOf(navArgument("data"){
+                        type = NavType.StringType
+                    })) { DescriptionMaster(it.arguments?.getString("data") ?:"", navController, this@MainActivity) }
                     composable("main") { MainScreen()}
                     composable("mainMaster") { MainScreenMaster() }
                 }

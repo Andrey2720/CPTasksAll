@@ -159,13 +159,11 @@ fun Registration(navController: NavHostController, context: Context) {
 
 private fun createUser(context: Context, name: String,  login: String, phone: String, password: String, checkbox: Boolean, navController: NavController) {
     val j = JSONObject()
-
     j.put( "name", name)
     j.put( "email", login)
     j.put( "phone", phone)
     j.put( "password", password)
     Log.d("MyLog", j.toString())
-
     if (checkbox == false){
         val url ="http://192.168.1.46:3002/api/user"
         val queue = Volley.newRequestQueue(context)
@@ -174,33 +172,24 @@ private fun createUser(context: Context, name: String,  login: String, phone: St
             url,
             j,
             {
-
                 try {
                     it.getString("name")
                     val res = it.toString()
                     navController.navigate("main")
                 } catch (e: Exception) {
-
                 }
             },
             {
                 Log.d("Error", "simpleRequest:${it}")
             }
-
-
-
         )
 
         queue.add(request)
     }else{
         try {
-            navController.navigate("DescriptionMaster")
+            navController.navigate("DescriptionMaster/${j}")
         } catch (e: Exception) {
             Log.d("Error", "simpleRequest:${e}")
         }
-
     }
-
-
-
 }

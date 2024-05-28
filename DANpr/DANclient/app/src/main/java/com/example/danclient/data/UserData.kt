@@ -1,4 +1,5 @@
 package com.example.danclient.data
 
-class UserData {
+sealed class UserData (val name: String, val email:String, val phone:String){
+    object User : UserData("","","")
 }
