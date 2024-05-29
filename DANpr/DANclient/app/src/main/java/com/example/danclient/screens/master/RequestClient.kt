@@ -36,7 +36,9 @@ import com.example.danclient.botton_navigation.BottonItemMaster
 //@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RequestClient(navController: NavHostController) {
+fun RequestClient(
+    navController: NavHostController
+) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(15.dp),

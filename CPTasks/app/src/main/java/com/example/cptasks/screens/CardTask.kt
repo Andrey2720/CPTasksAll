@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MenuDefaults
@@ -150,6 +152,50 @@ fun CardTask() {
                 }
             }
 
+        }
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 15.dp)){
+            Column {
+                Text(text = "Описание")
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp)
+                    .background(Color(0xffeeeeee))
+                    .height(300.dp)
+                    .border(
+                        BorderStroke(
+                            width = 2.dp,
+                            color = Color(145, 149, 160)
+                        ),
+                        shape = RoundedCornerShape(5.dp)
+                    )
+                ){
+                    Text(text = "Описание задчи",
+                        modifier = Modifier
+                            .padding(5.dp))
+                }
+            }
+
+        }
+
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(bottom = 30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom
+        ) {
+
+            Button(onClick = {  },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp),
+
+                shape = RoundedCornerShape(5.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(63,120,31))) {
+                Text(text = "Принять задачу", fontSize = 17.sp)
+            }
         }
         }
 
