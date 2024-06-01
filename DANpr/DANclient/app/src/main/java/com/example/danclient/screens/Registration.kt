@@ -40,6 +40,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.danclient.R
+import com.example.danclient.data.API
 import org.json.JSONObject
 
 //navHostController: NavHostController
@@ -165,7 +166,7 @@ private fun createUser(context: Context, name: String,  login: String, phone: St
     j.put( "password", password)
     Log.d("MyLog", j.toString())
     if (checkbox == false){
-        val url ="http://192.168.1.46:3002/api/user"
+        val url ="${API.DanIPI.api}/user"
         val queue = Volley.newRequestQueue(context)
         val request = JsonObjectRequest(
             Request.Method.POST,
@@ -175,7 +176,7 @@ private fun createUser(context: Context, name: String,  login: String, phone: St
                 try {
                     it.getString("name")
                     val res = it.toString()
-                    navController.navigate("main")
+                    navController.navigate("main/$res")
                 } catch (e: Exception) {
                 }
             },

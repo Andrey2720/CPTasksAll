@@ -53,6 +53,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.danclient.data.API
 import com.example.danclient.data.CategoriesModel
 import org.json.JSONArray
 import org.json.JSONObject
@@ -255,7 +256,7 @@ fun DescriptionMaster(data: String, navController: NavHostController, context: C
 
 private fun GetDataCategor(context: Context, itemList: MutableState<List<CategoriesModel>>){
 
-    val url ="http://192.168.1.46:3002/api/category"
+    val url ="${API.DanIPI.api}/category"
     val queue = Volley.newRequestQueue(context)
     val req =  StringRequest(
         Request.Method.GET,
@@ -281,7 +282,7 @@ private fun createMaster(context: Context, navController: NavController, dataReg
     dataReg.put("description", description)
 
 
-    val url ="http://192.168.1.46:3002/api/master"
+    val url ="${API.DanIPI.api}/master"
     val queue = Volley.newRequestQueue(context)
     val request = JsonObjectRequest(
         Request.Method.POST,
@@ -292,7 +293,7 @@ private fun createMaster(context: Context, navController: NavController, dataReg
             try {
                 it.getString("name")
                 val res = it.toString()
-                navController.navigate("mainMaster")
+                navController.navigate("mainMaster/$it")
             } catch (e: Exception) {
 
             }

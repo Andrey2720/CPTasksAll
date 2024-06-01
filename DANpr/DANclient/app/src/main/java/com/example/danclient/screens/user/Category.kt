@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,6 +33,7 @@ import androidx.navigation.NavHostController
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.danclient.data.API
 import com.example.danclient.data.CategoriesModel
 
 import org.json.JSONArray
@@ -40,11 +42,14 @@ import org.json.JSONObject
 
 //@Preview(showBackground = true)
 @Composable
-fun Category(navController: NavHostController) {
-
+fun Category(navController: NavHostController, data: String, context: Context) {
+    val userID = JSONObject(data).getInt("id")
+    Log.d("MyLog", "USER: $userID")
     var itemList = remember {
         mutableStateOf(listOf<CategoriesModel>())
     }
+
+    GetDataCategor(context,itemList)
 
   Column(modifier = Modifier
       .fillMaxSize()
@@ -60,8 +65,8 @@ fun Category(navController: NavHostController) {
       LazyColumn(
           modifier = Modifier.padding(top = 20.dp)
       ) {
-          items(5){
-              ListItem(navController)
+          itemsIndexed(itemList.value){
+              index, item ->  ListItem(navController, item, context, userID)
           }
       }
 
@@ -73,7 +78,7 @@ fun Category(navController: NavHostController) {
 //@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListItem(navController: NavHostController) {
+fun ListItem(navController: NavHostController, item: CategoriesModel, context: Context, userID: Int) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -83,14 +88,19 @@ fun ListItem(navController: NavHostController) {
             containerColor = Color(97, 0, 233)
         ),
         shape = RoundedCornerShape(5.dp),
-        onClick = {navController.navigate("Complect")}
+        onClick = {
+            val j = JSONObject()
+            j.put("users_id", userID)
+            j.put("category_id", item.id)
+            navController.navigate("Complect/${j}")
+        }
 
 
         ) {
         Row(modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center) {
-            Text(text = "Бытовая техника",
+            Text(text = item.name,
                 style = TextStyle(Color.White),
                 fontSize = 20.sp
             )
@@ -100,7 +110,7 @@ fun ListItem(navController: NavHostController) {
 
 private fun GetDataCategor(context: Context, itemList: MutableState<List<CategoriesModel>>){
 
-    val url ="http://192.168.1.46:3002/api/category"
+    val url ="${API.DanIPI.api}/category"
     val queue = Volley.newRequestQueue(context)
     val req =  StringRequest(
         Request.Method.GET,

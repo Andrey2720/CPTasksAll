@@ -1,5 +1,7 @@
 package com.example.danclient.screens.user
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +22,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,11 +32,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.example.danclient.data.API
+import org.json.JSONObject
 
 
 //@Preview(showBackground = true)
 @Composable
-fun CompletionCard(navController: NavHostController) {
+fun CompletionCard(data: String, context: Context, navController: NavHostController) {
+
+    var nameobj = remember {
+        mutableStateOf("")
+    }
+    var typeobj = remember {
+        mutableStateOf("")
+    }
+    var city = remember {
+        mutableStateOf("")
+    }
+    var description = remember {
+        mutableStateOf("")
+    }
+
+
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -66,8 +90,8 @@ fun CompletionCard(navController: NavHostController) {
             }
         }
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = nameobj.value,
+            onValueChange = {nameobj.value = it},
             modifier = Modifier
 
                 .fillMaxWidth()
@@ -104,8 +128,8 @@ fun CompletionCard(navController: NavHostController) {
             }
         }
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = typeobj.value,
+            onValueChange = {typeobj.value = it},
             modifier = Modifier
 
                 .fillMaxWidth()
@@ -140,8 +164,8 @@ fun CompletionCard(navController: NavHostController) {
             }
         }
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = city.value,
+            onValueChange = {city.value = it},
             modifier = Modifier
 
                 .fillMaxWidth()
@@ -176,8 +200,8 @@ fun CompletionCard(navController: NavHostController) {
             }
         }
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = description.value,
+            onValueChange = {description.value = it},
             modifier = Modifier
 
                 .fillMaxWidth()
@@ -195,8 +219,13 @@ fun CompletionCard(navController: NavHostController) {
         )
         Button(
             onClick = {
-//                    checkUser(context, loginText.value, passwordText.value, navController)
-                      navController.navigate("ListMasters")
+                val j = JSONObject(data)
+                j.put("nameobj", nameobj.value)
+                j.put("typeobj", typeobj.value)
+                j.put("description", description.value)
+                j.put("city", city.value)
+
+                navController.navigate("ListMasters/$j")
             },
             modifier = Modifier
                 .padding(top = 15.dp)
@@ -209,3 +238,5 @@ fun CompletionCard(navController: NavHostController) {
     }
 
 }
+
+

@@ -37,7 +37,8 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.danclient.R
-import com.example.danclient.data.UserData
+import com.example.danclient.data.API
+
 import org.json.JSONObject
 
 
@@ -137,7 +138,7 @@ private fun checkUser(context: Context, login: String, password: String, navCont
     j.put( "email", login)
     j.put( "password", password)
     Log.d("MyLog", j.toString())
-    val url ="http://192.168.1.46:3002/api/userLogin"
+    val url ="${API.DanIPI.api}/userLogin"
     val queue = Volley.newRequestQueue(context)
     val request = JsonObjectRequest(
         Request.Method.POST,
@@ -148,8 +149,8 @@ private fun checkUser(context: Context, login: String, password: String, navCont
             try {
                 it.getString("name")
                 val res = it.toString()
-//                navController.navigate("main/$res")
-                navController.navigate("main")
+                navController.navigate("main/$res")
+//                navController.navigate("main")
             } catch (e: Exception) {
 
             }
@@ -163,7 +164,7 @@ private fun checkUser(context: Context, login: String, password: String, navCont
     )
     queue.add(request)
 
-    val url1 ="http://192.168.1.46:3002/api/masterLogin"
+    val url1 ="${API.DanIPI.api}/masterLogin"
     val queue1 = Volley.newRequestQueue(context)
     val request1 = JsonObjectRequest(
         Request.Method.POST,
@@ -176,7 +177,7 @@ private fun checkUser(context: Context, login: String, password: String, navCont
                 val res = it.toString()
 //                navController.navigate("main/$res")
 
-                navController.navigate("mainMaster")
+                navController.navigate("mainMaster/$it")
             } catch (e: Exception) {
 
             }

@@ -48,6 +48,13 @@ class MasterController{
         const oneUser = await db.query(`select * from masters where id = $1`, [id])
         res.json(oneUser.rows[0])
     }
+
+    async getFilterMasters(reg, res){
+        const {city, category_id} = reg.body[0]
+        console.log(reg.body)
+        const users = await db.query(`select * from masters where city = $1 AND category_id = $2`, [city, category_id])
+        res.json(users.rows)
+    }
     
 }
 module.exports = new MasterController()

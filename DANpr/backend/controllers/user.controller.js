@@ -4,7 +4,7 @@ class UserController{
     async createUser(reg, res){
         let i = 0
         const {name, email,  phone, role, password} = reg.body
-        
+        console.log(reg.body)
         const q = await db.query(`select * from users`)
         q.rows.forEach(e => {
             if (e.email == email) {

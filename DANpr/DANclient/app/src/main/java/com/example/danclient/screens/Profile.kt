@@ -26,11 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.danclient.R
+import org.json.JSONObject
 
 
 //@Preview(showBackground = true)
 @Composable
-fun Profile(navController: NavHostController) {
+fun Profile(navController: NavHostController, data: String) {
+    val j = JSONObject(data)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +66,7 @@ fun Profile(navController: NavHostController) {
                     shape = RoundedCornerShape(5.dp)
                 )
             ){
-                Text(text = "Иванов Иван",
+                Text(text = j.getString("name"),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(start = 5.dp))
@@ -84,7 +86,7 @@ fun Profile(navController: NavHostController) {
                     shape = RoundedCornerShape(5.dp)
                 )
             ){
-                Text(text = "Беляево",
+                Text(text = GetCity(j),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(start = 5.dp))
@@ -104,7 +106,7 @@ fun Profile(navController: NavHostController) {
                     shape = RoundedCornerShape(5.dp)
                 )
             ){
-                Text(text = "test@mail.ru",
+                Text(text = j.getString("email"),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(start = 5.dp))
@@ -124,7 +126,7 @@ fun Profile(navController: NavHostController) {
                     shape = RoundedCornerShape(5.dp)
                 )
             ){
-                Text(text = "+78888888888",
+                Text(text = j.getString("phone"),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(start = 5.dp))
@@ -146,5 +148,15 @@ fun Profile(navController: NavHostController) {
 
 
     }
+}
+
+private fun GetCity (j: JSONObject) : String{
+    var s = ""
+    try {
+        s = j.getString("city")
+    }catch (e: Exception){
+        s = "Метро"
+    }
+    return s
 }
 

@@ -2,10 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CreateTask">
+      <entry key="CreateGroup">
         <State />
       </entry>
-      <entry key="UserMainActivity">
+      <entry key="CreateUser">
+        <State />
+      </entry>
+      <entry key="ListGroup">
+        <State />
+      </entry>
+      <entry key="Rules">
+        <State />
+      </entry>
+      <entry key="ShowGroup">
         <State />
       </entry>
       <entry key="app">

@@ -30,15 +30,25 @@ class MainActivity : ComponentActivity() {
 
             NavHost(navController=navController, startDestination = "login", modifier = Modifier.fillMaxSize()) {
                     composable("login") { Login(navController, this@MainActivity)}
+
 //                navController
                     composable("reg") { Registration(navController, this@MainActivity)}
+
                     composable("DescriptionMaster/{data}"
                         , arguments = listOf(navArgument("data"){
                         type = NavType.StringType
                     })) { DescriptionMaster(it.arguments?.getString("data") ?:"", navController, this@MainActivity) }
-                    composable("main") { MainScreen()}
-                    composable("mainMaster") { MainScreenMaster() }
-                }
+
+                    composable("main/{data}"
+                    , arguments = listOf(navArgument("data"){
+                        type = NavType.StringType
+                    })) { MainScreen(it.arguments?.getString("data") ?:"", this@MainActivity) }
+
+                    composable("mainMaster/{data}"
+                    , arguments = listOf(navArgument("data"){
+                        type = NavType.StringType
+                    })) { MainScreenMaster(it.arguments?.getString("data") ?:"", this@MainActivity) }
+                    }
 
             }
             }

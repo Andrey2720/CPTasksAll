@@ -1,5 +1,6 @@
 package com.example.danclient
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,9 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.danclient.botton_navigation.BottomNavigation
 import com.example.danclient.botton_navigation.BottomNavigationMaster
 import com.example.danclient.botton_navigation.BottonItem
@@ -28,7 +31,7 @@ import com.example.danclient.screens.user.ShowItemMaster
 
 
 @Composable
-fun MainScreenMaster() {
+fun MainScreenMaster(data: String, context: Context) {
     val navController2 = rememberNavController()
     Column(modifier = Modifier.fillMaxSize()) {
         NavHost(
@@ -39,10 +42,14 @@ fun MainScreenMaster() {
                 .fillMaxHeight(0.9f)
         ) {
 
-            composable(BottonItemMaster.Screen1.route) { RequestsMaster(navController2) }
-            composable(BottonItemMaster.Screen2.route) { Profile(navController2) }
+            composable(BottonItemMaster.Screen1.route) { RequestsMaster(navController2, data, context) }
+            composable(BottonItemMaster.Screen2.route) { Profile(navController2, data) }
             composable("Rules") { Rules() }
-            composable("RequestClient") { RequestClient(navController2) }
+
+            composable("RequestClient/{data}"
+                , arguments = listOf(navArgument("data"){
+                    type = NavType.StringType
+                })) { RequestClient(it.arguments?.getString("data") ?:"",navController2, context) }
 
         }
         BottomNavigationMaster(navController = navController2)

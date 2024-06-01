@@ -21,19 +21,28 @@ class FormController{
 
     async getFormFilterFromUser(reg, res){
         
-        const {users_id} = reg.body
+        const id = reg.params.id
         
-        console.log(reg.body)
-        const filt = await db.query(`SELECT * FROM form WHERE users_id = $1;`, [users_id])
+        console.log(reg.params.id)
+        const filt = await db.query(`select masters.name, form.nameobj, form.city, form.status from form inner join masters on form.masters_id = masters.id where form.users_id = $1;`, [id])
         res.json(filt.rows)
     }
 
     async getFormFilterFromMaster(reg, res){
         
-        const {city, masters_id, category_id} = reg.body
+        const id = reg.params.id
+        
+       
+        const filt = await db.query(`select form.id, users.name, form.nameobj, form.status, form.city, form.typeobj, form.description, users.email, users.phone from form inner join users on form.users_id = users.id where form.masters_id = $1;`, [id])
+        res.json(filt.rows)
+    }
+
+    async updateStatus(reg, res){
+        
+        const {status, id} = reg.body
         
         console.log(reg.body)
-        const filt = await db.query(`SELECT * FROM form WHERE city = $1 AND masters_id = $2 AND category_id = $3;`, [city, masters_id, category_id])
+        const filt = await db.query(`update form set status = $1 where id = $2;`, [status, id])
         res.json(filt.rows)
     }
     
