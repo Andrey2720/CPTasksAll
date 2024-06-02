@@ -1,5 +1,6 @@
 package com.example.cptasks.screens.admin
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,13 +30,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.cptasks.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+
 @Composable
-fun ShowGroup() {
+fun ShowGroup(data: String, context: Context, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()

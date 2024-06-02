@@ -34,6 +34,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.cptasks.R
+import com.example.cptasks.data.API
 import org.json.JSONObject
 
 
@@ -116,7 +117,7 @@ private fun checkUser(context: Context, login: String, password: String, navCont
     j.put( "email", login)
     j.put( "password", password)
     Log.d("MyLog", j.toString())
-    val url ="http://192.168.1.46:3001/api/userLogin"
+    val url ="${API.AndAPI.api}/userLogin"
     val queue = Volley.newRequestQueue(context)
     val request = JsonObjectRequest(
         Request.Method.POST,
@@ -125,9 +126,15 @@ private fun checkUser(context: Context, login: String, password: String, navCont
         {
 
             try {
-                it.getString("name")
-                val res = it.toString()
-                navController.navigate("userMain/$res")
+                if(it.getString("role") == "0"){
+                    val res = it.toString()
+                    navController.navigate("listGroup/$res")
+                }else{
+                    val res = it.toString()
+                    navController.navigate("userMain/$res")
+                }
+
+
             } catch (e: Exception) {
                 Toast.makeText(context, "Неверный логин или пароль!", Toast.LENGTH_SHORT).show()
             }

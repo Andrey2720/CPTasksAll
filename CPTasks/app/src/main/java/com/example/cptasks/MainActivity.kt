@@ -12,6 +12,8 @@ import com.example.cptasks.screens.CardTask
 import com.example.cptasks.screens.CreateTask
 import com.example.cptasks.screens.Login
 import com.example.cptasks.screens.UserMainActivity
+import com.example.cptasks.screens.admin.ListGroup
+import com.example.cptasks.screens.admin.ShowGroup
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +44,24 @@ class MainActivity : ComponentActivity() {
                     arguments = listOf(navArgument("data"){
                         type = NavType.StringType
                     })){
-//                    it.arguments?.getString("data") ?:"", this@MainActivity, navController
-                    CardTask()
+//
+                    CardTask(it.arguments?.getString("data") ?:"", this@MainActivity, navController)
+                }
+
+                composable("listGroup/{data}",
+                    arguments = listOf(navArgument("data"){
+                        type = NavType.StringType
+                    })){
+//
+                    ListGroup(it.arguments?.getString("data") ?:"", this@MainActivity, navController)
+                }
+
+                composable("ShowGroup/{data}",
+                    arguments = listOf(navArgument("data"){
+                        type = NavType.StringType
+                    })){
+//
+                    ShowGroup(it.arguments?.getString("data") ?:"", this@MainActivity, navController)
                 }
             }
 //            Login(this)

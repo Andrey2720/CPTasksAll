@@ -31,6 +31,15 @@ class TaskController{
         AND date_start = $4 ORDER BY time_start;`, [time_start, time_end, user_tb_id, date_start])
         res.json(filt.rows)
     }
+
+    async updateStatus(reg, res){
+        
+        const {status, id} = reg.body
+        
+        console.log(reg.body)
+        const filt = await db.query(`update tasks set status = $1 where id = $2;`, [status, id])
+        res.json(filt.rows)
+    }
     
 }
 module.exports = new TaskController()

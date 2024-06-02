@@ -33,6 +33,7 @@ import androidx.navigation.NavController
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.cptasks.data.API
 import org.json.JSONObject
 
 //@Preview(showBackground = true)
@@ -267,7 +268,7 @@ private fun createTackDB(context: Context, dateText: String, timeEndText: String
     j.put( "time_end", timeEndText)
     j.put( "user_tb_id", userID)
     Log.d("MyLog", j.toString())
-    val url ="http://192.168.1.46:3001/api/task"
+    val url ="${API.AndAPI.api}/task"
     val queue = Volley.newRequestQueue(context)
     val request = JsonObjectRequest(
         Request.Method.POST,

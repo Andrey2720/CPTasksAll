@@ -47,6 +47,9 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.cptasks.data.API
+import com.example.cptasks.data.FormaterDate
+import com.example.cptasks.data.FormaterTime
 import com.example.cptasks.data.ItemTaskModel
 import org.json.JSONArray
 import org.json.JSONObject
@@ -57,29 +60,18 @@ import java.util.Date
 @Composable
 fun UserMainActivity(data: String ,context: Context, navController: NavController) {
     var dateText = remember {
-        mutableStateOf("")
+        mutableStateOf(GetCurentDate())
     }
     var timeStartText = remember {
-        mutableStateOf("")
+        mutableStateOf("00:00")
     }
     var timeEndText = remember {
-        mutableStateOf("")
+        mutableStateOf("23:59")
     }
     var itemList = remember {
         mutableStateOf(listOf<ItemTaskModel>())
     }
 
-//    val formatter = SimpleDateFormat("yyyy-MM-dd")
-//    val date = Date()
-//    val current = formatter.format(date)
-//    dateText.value = current
-//    timeStartText.value = "00:00:00"
-//    timeEndText.value = "23:59:59"
-//    val userID = JSONObject(data).getInt("id")
-////    GetDataTasks(context, itemList, current, "23:59:59", "00:00:00", userID)
-
-
-//    Log.d("MyLog", "ДАТА:  $current")
 
     Column(
         modifier = Modifier
@@ -224,7 +216,18 @@ fun ListItem(item: ItemTaskModel, context: Context, navController: NavController
         ),
         shape = RoundedCornerShape(5.dp),
         onClick = {
-            ShowCard(context, item.id, navController)
+            val j = JSONObject()
+            j.put("id", item.id)
+            j.put("name", item.name)
+            j.put("date_start", item.date_start)
+            j.put("time_start", item.time_start)
+            j.put("time_end", item.time_end)
+            j.put("status", item.status)
+            j.put("creation_date", item.creation_date)
+            j.put("description", item.description)
+
+
+            navController.navigate("cardTask/$j")
             Log.d("Error", "Тема: ${item}")
         }
     ) {
@@ -252,7 +255,7 @@ fun ListItem(item: ItemTaskModel, context: Context, navController: NavController
                 horizontalArrangement = Arrangement.SpaceBetween
 
             ) {
-                Text(text = "${item.time_start} - ${item.time_end}",
+                Text(text = "${FormaterTime(item.time_start) } - ${FormaterTime(item.time_end) }",
                     style = TextStyle(Color.White),
                     fontSize = 15.sp)
                 Text(text = "Статус: ${ParsStatus(item.status)}",
@@ -274,7 +277,7 @@ private fun GetDataTasks(context: Context, itemList: MutableState<List<ItemTaskM
 
     val arr = JSONArray()
     arr.put(j)
-    val url ="http://192.168.1.46:3001/api/taskFilter"
+    val url ="${API.AndAPI.api}/taskFilter"
     val queue = Volley.newRequestQueue(context)
     val req =  JsonArrayRequest(
         Request.Method.POST,
@@ -332,6 +335,15 @@ private fun ParsStatus(status: String): String{
     return stat
 }
 
-private fun ShowCard(context: Context, id:Int, navController: NavController){
-    navController.navigate("cardTask/$id")
+private fun GetCurentDate():String{
+    val formatter = SimpleDateFormat("yyyy-MM-dd")
+    val date = Date()
+    val current = formatter.format(date)
+
+
+    return current
+
 }
+
+
+

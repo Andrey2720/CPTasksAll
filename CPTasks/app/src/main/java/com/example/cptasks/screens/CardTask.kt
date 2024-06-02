@@ -1,6 +1,8 @@
 package com.example.cptasks.screens
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,29 +35,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.example.cptasks.data.API
+import com.example.cptasks.data.FormaterDate
+import com.example.cptasks.data.FormaterDateTime
+import com.example.cptasks.data.FormaterTime
+import org.json.JSONObject
+import java.text.SimpleDateFormat
 
-@Preview(showBackground = true)
-//data: String, context: Context, navController: NavController
+
 @Composable
-fun CardTask() {
-    var dateText = remember {
-        mutableStateOf("")
-    }
-    var timeStartText = remember {
-        mutableStateOf("")
-    }
-    var timeEndText = remember {
-        mutableStateOf("")
-    }
-    var user = remember {
-        mutableStateOf("")
-    }
-    var tema = remember {
-        mutableStateOf("")
-    }
-    var description = remember {
-        mutableStateOf("")
-    }
+fun CardTask(data: String, context: Context, navController: NavController) {
+
+    val j = JSONObject(data)
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -80,7 +75,7 @@ fun CardTask() {
                 horizontalArrangement = Arrangement.Center
 
             ) {
-                Text(text = "Тема",
+                Text(text = j.getString("name"),
                     style = TextStyle(Color.White),
                     fontSize = 20.sp
                 )
@@ -94,10 +89,10 @@ fun CardTask() {
                 horizontalArrangement = Arrangement.SpaceBetween
 
             ) {
-                Text(text = "12-05-2024",
+                Text(text = FormaterDate(j.getString("date_start")) ,
                     style = TextStyle(Color.White),
                     fontSize = 15.sp)
-                Text(text = "09:00-10:00",
+                Text(text = "${FormaterTime(j.getString("time_start")) } - ${FormaterTime(j.getString("time_end")) }",
                     style = TextStyle(Color.White),
                     fontSize = 15.sp)
             }
@@ -121,8 +116,9 @@ fun CardTask() {
                         shape = RoundedCornerShape(5.dp)
                     )
                 ){
-                    Text(text = "Назначен",
-                        modifier = Modifier.align(Alignment.CenterStart)
+                    Text(text = ParsStatus(j.getString("status")),
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
                             .padding(start = 5.dp))
                 }
             }
@@ -146,8 +142,9 @@ fun CardTask() {
                         shape = RoundedCornerShape(5.dp)
                     )
                 ){
-                    Text(text = "02-04-2024  09:00",
-                        modifier = Modifier.align(Alignment.CenterStart)
+                    Text(text = FormaterDateTime(j.getString("creation_date")) ,
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
                             .padding(start = 5.dp))
                 }
             }
@@ -171,7 +168,7 @@ fun CardTask() {
                         shape = RoundedCornerShape(5.dp)
                     )
                 ){
-                    Text(text = "Описание задчи",
+                    Text(text = j.getString("description"),
                         modifier = Modifier
                             .padding(5.dp))
                 }
@@ -187,7 +184,22 @@ fun CardTask() {
             verticalArrangement = Arrangement.Bottom
         ) {
 
-            Button(onClick = {  },
+            ButtonStat(navController = navController, j = j, context = context)
+        }
+        }
+
+    }
+
+@Composable
+fun ButtonStat(navController: NavController, j: JSONObject, context: Context){
+    val status = j.getInt("status")
+    val id = j.getInt("id")
+    when(status){
+        0 -> {
+            Button(onClick = {
+                UpdateStatus(1, id, context)
+                navController.navigateUp()
+                             },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp),
@@ -197,9 +209,80 @@ fun CardTask() {
                 Text(text = "Принять задачу", fontSize = 17.sp)
             }
         }
+        1 ->{
+            Button(onClick = {
+                UpdateStatus(2, id, context)
+                navController.navigateUp()
+                             },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp),
+
+                shape = RoundedCornerShape(5.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(63,120,31))) {
+                Text(text = "Выполнено", fontSize = 17.sp)
+            }
+        }
+        2 ->{
+            Button(onClick = {
+
+                navController.navigateUp()
+                             },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp),
+
+                shape = RoundedCornerShape(5.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(63,120,31))) {
+                Text(text = "Вернуться к списку задач", fontSize = 17.sp)
+            }
+        }
+    }
+}
+
+private fun ParsStatus(status: String): String{
+    var stat = ""
+    when(status){
+        "0" -> {
+            stat = "К исполнению"
+        }
+        "1" ->{
+            stat = "В работе"
+        }
+        "2" ->{
+            stat = "Выполнено"
+        }
+    }
+    return stat
+}
+
+private fun UpdateStatus (status: Int, id: Int, context: Context){
+    val j = JSONObject()
+
+    j.put( "status", status)
+    j.put( "id", id)
+    Log.d("MyLog", j.toString())
+    val url ="${API.AndAPI.api}/taskUpdateStatus"
+    val queue = Volley.newRequestQueue(context)
+    val request = JsonObjectRequest(
+        Request.Method.POST,
+        url,
+        j,
+        {
+
+        },
+        {
+            Log.d("Error", "simpleRequest:${it}")
         }
 
-    }
+
+
+    )
+    queue.add(request)
+}
+
+
+
 
 
 
