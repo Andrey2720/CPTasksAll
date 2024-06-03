@@ -6,7 +6,7 @@ class GroupController{
         res.json(newGroup.rows[0])
     }
     async getGroups(reg, res){
-        const groups = await db.query(`select group_tb.id, group_tb.name, count(*) from user_tb inner join group_tb on user_tb.group_tb_id = group_tb.id group by group_tb.name, group_tb.id`)
+        const groups = await db.query(`select group_tb.id, group_tb.name, count(user_tb.id) from group_tb LEFT JOIN user_tb on group_tb.id = user_tb.group_tb_id group by group_tb.name, group_tb.id order by count(user_tb.id) desc`)
         console.log(groups.rows)
         res.json(groups.rows)
     }

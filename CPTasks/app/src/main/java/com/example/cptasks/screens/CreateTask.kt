@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,8 +33,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.cptasks.data.API
+import org.json.JSONArray
 import org.json.JSONObject
 
 //@Preview(showBackground = true)
@@ -60,6 +63,11 @@ fun CreateTask(data: String, context: Context, navController: NavController) {
     var description = remember {
         mutableStateOf("")
     }
+    var idUser = remember {
+        mutableStateOf(data.toInt())
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -240,7 +248,7 @@ fun CreateTask(data: String, context: Context, navController: NavController) {
                 colors = ButtonDefaults.buttonColors(containerColor = Color(63,120,31))) {
                 Text(text = "Посмотреть расписание", fontSize = 17.sp)
             }
-            Button(onClick = { createTackDB(context, dateText.value, timeEndText.value, timeStartText.value, data.toInt(), tema.value, description.value, navController) },
+            Button(onClick = { createTackDB(context, dateText.value, timeEndText.value, timeStartText.value, idUser, tema.value, description.value, navController, checkboxval.value, user.value) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp),
@@ -254,43 +262,115 @@ fun CreateTask(data: String, context: Context, navController: NavController) {
     }
 }
 
+
+
 private fun createTackDB(context: Context, dateText: String, timeEndText: String, timeStartText: String,
-                         userID: Int, tema: String, description: String, navController: NavController){
-    val j = JSONObject()
+                              userID: MutableState<Int>, tema: String, description: String, navController: NavController, checkboxval: Boolean, email: String){
 
-    j.put( "name", tema)
-    j.put( "description", description)
-    j.put( "files", "")
-    j.put( "status", 0)
-    j.put( "date_start", dateText)
-    j.put( "date_end", dateText)
-    j.put( "time_start", timeStartText)
-    j.put( "time_end", timeEndText)
-    j.put( "user_tb_id", userID)
-    Log.d("MyLog", j.toString())
-    val url ="${API.AndAPI.api}/task"
-    val queue = Volley.newRequestQueue(context)
-    val request = JsonObjectRequest(
-        Request.Method.POST,
-        url,
-        j,
-        {
-            try {
-                it.getString("name")
-                Toast.makeText(context, "Задача создна", Toast.LENGTH_SHORT).show()
-                navController.navigateUp()
+    if (checkboxval == true){
+        val j = JSONObject()
 
-            } catch (e: Exception) {
+        j.put( "name", tema)
+        j.put( "description", description)
+        j.put( "files", "")
+        j.put( "status", 0)
+        j.put( "date_start", dateText)
+        j.put( "date_end", dateText)
+        j.put( "time_start", timeStartText)
+        j.put( "time_end", timeEndText)
+        j.put( "user_tb_id", userID.value)
+        Log.d("MyLog", j.toString())
+        val url ="${API.AndAPI.api}/task"
+        val queue = Volley.newRequestQueue(context)
+        val request = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            j,
+            {
+                try {
+                    it.getString("name")
+                    Toast.makeText(context, "Задача создна", Toast.LENGTH_SHORT).show()
+                    navController.navigateUp()
+
+                } catch (e: Exception) {
+                    Toast.makeText(context, "Что то пошло не так", Toast.LENGTH_SHORT).show()
+                }
+
+            },
+            {
+                Log.d("Error", "simpleRequest:${it}")
                 Toast.makeText(context, "Что то пошло не так", Toast.LENGTH_SHORT).show()
             }
 
-        },
-        {
-            Log.d("Error", "simpleRequest:${it}")
-            Toast.makeText(context, "Что то пошло не так", Toast.LENGTH_SHORT).show()
-        }
+        )
 
-    )
+        queue.add(request)
+    }else{
 
-    queue.add(request)
-}
+        val jmail = JSONObject()
+        jmail.put("email", email)
+
+        val url ="${API.AndAPI.api}/userFromMail"
+        val queue = Volley.newRequestQueue(context)
+        val request = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            jmail,
+            {
+                try {
+                    Log.d("MyLog", "ID пользователя ${it.getInt("id")}")
+                    val idUserE= it.getInt("id")
+                    val j = JSONObject()
+
+                    j.put( "name", tema)
+                    j.put( "description", description)
+                    j.put( "files", "")
+                    j.put( "status", 0)
+                    j.put( "date_start", dateText)
+                    j.put( "date_end", dateText)
+                    j.put( "time_start", timeStartText)
+                    j.put( "time_end", timeEndText)
+                    j.put( "user_tb_id", idUserE)
+                    Log.d("MyLog", j.toString())
+                    val url ="${API.AndAPI.api}/task"
+                    val queue = Volley.newRequestQueue(context)
+                    val request = JsonObjectRequest(
+                        Request.Method.POST,
+                        url,
+                        j,
+                        {
+                            try {
+                                it.getString("name")
+                                Toast.makeText(context, "Задача создна", Toast.LENGTH_SHORT).show()
+                                navController.navigateUp()
+
+                            } catch (e: Exception) {
+                                Toast.makeText(context, "Что то пошло не так", Toast.LENGTH_SHORT).show()
+                            }
+
+                        },
+                        {
+                            Log.d("Error", "simpleRequest:${it}")
+                            Toast.makeText(context, "Что то пошло не так", Toast.LENGTH_SHORT).show()
+                        }
+
+                    )
+
+                    queue.add(request)
+
+
+                } catch (e: Exception) {
+                    Toast.makeText(context, "Что то пошло не так", Toast.LENGTH_SHORT).show()
+                }
+
+            },
+            {
+                Log.d("Error", "simpleRequest:${it}")
+                Toast.makeText(context, "Что то пошло не так", Toast.LENGTH_SHORT).show()
+            }
+
+        )
+
+        queue.add(request)
+    }}
+

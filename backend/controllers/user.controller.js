@@ -49,11 +49,18 @@ class UserController{
         const oneUser = await db.query(`select * from user_tb where id = $1`, [id])
         res.json(oneUser.rows)
     }
-    async updateUser(reg, res){
-        
+    async getGroupUsers(reg, res){
+        const id = reg.params.id
+        console.log(id)
+        const oneUser = await db.query(`select * from user_tb where group_tb_id = $1`, [id])
+        res.json(oneUser.rows)
     }
-    async deleteUser(reg, res){
-        
+
+    async getUserFromMail(reg, res){
+        const {email} = reg.body
+        console.log(`пользак мясо ${email}`)
+        const oneUser = await db.query(`select * from user_tb where email = $1`, [email])
+        res.json(oneUser.rows[0])
     }
 }
 module.exports = new UserController()

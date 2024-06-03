@@ -6,6 +6,8 @@ router.post('/user', userController.createUser)
 router.get('/user', userController.getUsers)
 router.post('/userLogin', userController.loginUser)
 router.get('/user/:id', userController.getOneUser)
+router.get('/usersGroup/:id', userController.getGroupUsers)
+router.post('/userFromMail', userController.getUserFromMail)
 
 
 

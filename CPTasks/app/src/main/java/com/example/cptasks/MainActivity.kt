@@ -12,6 +12,8 @@ import com.example.cptasks.screens.CardTask
 import com.example.cptasks.screens.CreateTask
 import com.example.cptasks.screens.Login
 import com.example.cptasks.screens.UserMainActivity
+import com.example.cptasks.screens.admin.CreateGroup
+import com.example.cptasks.screens.admin.CreateUser
 import com.example.cptasks.screens.admin.ListGroup
 import com.example.cptasks.screens.admin.ShowGroup
 
@@ -63,6 +65,19 @@ class MainActivity : ComponentActivity() {
 //
                     ShowGroup(it.arguments?.getString("data") ?:"", this@MainActivity, navController)
                 }
+
+                composable("CreateGroup"){
+                    CreateGroup(this@MainActivity, navController)
+                }
+
+                composable("CreateUser/{data}",
+                    arguments = listOf(navArgument("data"){
+                        type = NavType.StringType
+                    })){
+//
+                    CreateUser(it.arguments?.getString("data") ?:"", this@MainActivity, navController)
+                }
+
             }
 //            Login(this)
         }

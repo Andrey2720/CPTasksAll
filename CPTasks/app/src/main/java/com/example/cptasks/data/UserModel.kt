@@ -8,7 +8,7 @@ data class UserModel(
     val email: String,
     val role: String,
     val group_tb_id: Int,
-    val password: String
+
 )
 
 data class TaskModel(

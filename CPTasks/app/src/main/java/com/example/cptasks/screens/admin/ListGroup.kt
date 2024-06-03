@@ -85,7 +85,7 @@ fun ListGroup(data: String, context: Context, navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
 
-            Button(onClick = {  },
+            Button(onClick = { navController.navigate("CreateGroup") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp),
@@ -121,6 +121,7 @@ fun ListItem(
             val j = JSONObject()
             j.put("group_tb_id", item.id)
             j.put("name", item.name)
+            j.put("count",item.count)
             navController.navigate("ShowGroup/$j")
 
         }
