@@ -3,6 +3,7 @@ package com.example.cptasks.screens
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -210,7 +211,8 @@ fun ListItem(item: ItemTaskModel, context: Context, navController: NavController
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 7.dp)
-            .height(65.dp),
+            .height(65.dp)
+            .border(3.dp, color = BorderColor(item.status), RoundedCornerShape(5.dp)),
         colors = CardDefaults.cardColors(
             containerColor = Color(63,120,31)
         ),
@@ -343,6 +345,22 @@ private fun GetCurentDate():String{
 
     return current
 
+}
+private fun BorderColor(status: String):Color{
+
+    var col = Color.White
+    when(status){
+        "0" -> {
+            col = Color.Red
+        }
+        "1" ->{
+            col = Color.Yellow
+        }
+        "2" ->{
+            col = Color(63,120,31)
+        }
+    }
+    return col
 }
 
 
