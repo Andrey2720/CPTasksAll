@@ -43,7 +43,7 @@ import org.json.JSONObject
 //@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RequestClient(data:String,navController: NavHostController, context: Context) {
+fun RequestClient(data:String, navController: NavHostController, context: Context) {
 
     val j = JSONObject(data)
     Column(modifier = Modifier
@@ -129,10 +129,11 @@ fun RequestClient(data:String,navController: NavHostController, context: Context
 fun ButtonStat(navController: NavHostController, j: JSONObject, context: Context){
     val stat = j.getInt("status")
     val id = j.getInt("id")
+    val master_id = j.getInt("master_id")
     if (stat == 0){
         Button(
             onClick = {
-                UpdateStatus(1, id, context)
+                UpdateStatus(1, id, context, master_id)
                 navController.navigate(BottonItemMaster.Screen1.route)
             },
             modifier = Modifier
@@ -144,7 +145,7 @@ fun ButtonStat(navController: NavHostController, j: JSONObject, context: Context
         }
         Button(
             onClick = {
-                UpdateStatus(2, id, context)
+                UpdateStatus(2, id, context, master_id)
                 navController.navigate(BottonItemMaster.Screen1.route)
             },
             modifier = Modifier
@@ -172,11 +173,12 @@ fun ButtonStat(navController: NavHostController, j: JSONObject, context: Context
 
 }
 
-private fun UpdateStatus (status: Int, id: Int, context: Context){
+private fun UpdateStatus (status: Int, id: Int, context: Context, master_id: Int){
     val j = JSONObject()
 
     j.put( "status", status)
     j.put( "id", id)
+    j.put("master_id", master_id)
     Log.d("MyLog", j.toString())
     val url ="${API.DanIPI.api}/updateFormStatus"
     val queue = Volley.newRequestQueue(context)

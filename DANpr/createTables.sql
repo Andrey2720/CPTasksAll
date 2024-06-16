@@ -26,7 +26,8 @@ create table if not exists masters
 	password varchar(255),
 	category_id integer references category(id),
 	city varchar(255),
-	description text
+	description text,
+	rating integer
 	
 );
 

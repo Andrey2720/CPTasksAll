@@ -176,7 +176,8 @@ private fun ParsMaster(res: JSONArray): ArrayList<MasterModel> {
                 item.getString("phone"),
                 item.getInt("category_id"),
                 item.getString("city"),
-                item.getString("description")
+                item.getString("description"),
+                item.getString("rating")
             )
         )
     }

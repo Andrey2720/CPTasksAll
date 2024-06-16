@@ -62,8 +62,12 @@ fun ShowItemMaster(data: String, context: Context,navController: NavHostControll
     val descriptionMaster = remember {
         mutableStateOf("")
     }
+    val rating = remember {
+        mutableStateOf("")
+    }
 
-    GetOneMaster(context, data, nameMaster, metro, descriptionMaster)
+
+    GetOneMaster(context, data, nameMaster, metro, descriptionMaster, rating)
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(15.dp),
@@ -112,6 +116,10 @@ fun ShowItemMaster(data: String, context: Context,navController: NavHostControll
                     text = descriptionMaster.value,
                     style = TextStyle(Color.White)
                 )
+                Text(modifier = Modifier.padding(top = 30.dp),
+                    text = "Рейтинг: ${rating.value}",
+                    style = TextStyle(Color.White)
+                )
 
             }
         }
@@ -129,7 +137,7 @@ fun ShowItemMaster(data: String, context: Context,navController: NavHostControll
     }
 }
 
-private fun GetOneMaster(context: Context, data: String, nameMaster: MutableState<String>, metro: MutableState<String>, descriptionMaster: MutableState<String>){
+private fun GetOneMaster(context: Context, data: String, nameMaster: MutableState<String>, metro: MutableState<String>, descriptionMaster: MutableState<String>, rating: MutableState<String>){
 
     val masterID = JSONObject(data).getString("masters_id")
     val url ="${API.DanIPI.api}/master/$masterID"
@@ -142,6 +150,7 @@ private fun GetOneMaster(context: Context, data: String, nameMaster: MutableStat
             nameMaster.value = obj.getString("name")
             metro.value = obj.getString("city")
             descriptionMaster.value = obj.getString("description")
+            rating.value = obj.getString("rating")
 
         },
         {

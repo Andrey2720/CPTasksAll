@@ -33,16 +33,21 @@ class FormController{
         const id = reg.params.id
         
        
-        const filt = await db.query(`select form.id, users.name, form.nameobj, form.status, form.city, form.typeobj, form.description, users.email, users.phone from form inner join users on form.users_id = users.id where form.masters_id = $1;`, [id])
+        const filt = await db.query(`select form.id, users.name, form.nameobj, form.status, form.city, form.typeobj, form.description, users.email, users.phone from form inner join users on form.users_id = users.id where form.masters_id = $1 ORDER BY form.status;`, [id])
         res.json(filt.rows)
     }
 
     async updateStatus(reg, res){
         
-        const {status, id} = reg.body
+        const {status, id, master_id} = reg.body
         
         console.log(reg.body)
         const filt = await db.query(`update form set status = $1 where id = $2;`, [status, id])
+        if(status == 1){
+            console.log("рейтинг изменен")
+            const master_rating = await db.query(`update masters set rating = rating + 1 where id = $1;`, [master_id])
+        }
+        
         res.json(filt.rows)
     }
     

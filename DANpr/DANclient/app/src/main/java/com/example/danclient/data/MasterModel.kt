@@ -7,6 +7,7 @@ data class MasterModel (
     val phone: String,
     val category_id: Int,
     val city: String,
-    val description: String
+    val description: String,
+    val rating: String
 
 )

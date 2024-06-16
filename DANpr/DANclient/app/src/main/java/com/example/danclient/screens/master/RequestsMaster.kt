@@ -69,7 +69,7 @@ fun RequestsMaster(navController: NavHostController, data: String, context: Cont
         ) {
             itemsIndexed(itemList.value){
                     index, item ->
-                ItemRequests(navController,item)
+                ItemRequests(navController = navController, item = item, data)
             }
         }
 
@@ -80,7 +80,7 @@ fun RequestsMaster(navController: NavHostController, data: String, context: Cont
 //@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ItemRequests(navController: NavHostController, item: FormModelFromMaster) {
+fun ItemRequests(navController: NavHostController, item: FormModelFromMaster, data: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -93,6 +93,7 @@ fun ItemRequests(navController: NavHostController, item: FormModelFromMaster) {
         onClick = {
             val j = JSONObject()
             j.put("id", item.id)
+            j.put("master_id", JSONObject(data).getString("id"))
             j.put("nameobj", item.nameobj)
             j.put("city", item.city)
             j.put("typeobj", item.typeobj)
@@ -138,7 +139,9 @@ fun ItemRequests(navController: NavHostController, item: FormModelFromMaster) {
 
             }
             Icon(
-                modifier = Modifier.padding(end = 20.dp).size(100.dp)
+                modifier = Modifier
+                    .padding(end = 20.dp)
+                    .size(100.dp)
                     .border(width = 2.dp, color = Color.Black),
                 painter = painterResource(id = R.drawable.photo), contentDescription = "photo"
             )
